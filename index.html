@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research Assistant</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { max-width: 800px; width: 100%; margin: 20px; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #333; margin-bottom: 10px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        #question-input { flex-grow: 1; padding: 15px; font-size: 16px; border: 1px solid #ddd; border-radius: 8px; }
+        #ask-btn { padding: 15px 25px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s; }
+        #ask-btn:disabled { background-color: #a0c7e4; cursor: not-allowed; }
+        #answer-box { margin-top: 30px; display: none; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .answer-content { background: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; border-radius: 8px; line-height: 1.6; white-space: pre-wrap; }
+        .error { color: #d9534f; background: #f2dede; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Research Assistant</h1>
+        <p class="subtitle">Ask questions about 60+ foundational AI/ML research papers</p>
+        <div class="input-group">
+            <input type="text" id="question-input" placeholder="e.g., How does the ResNet architecture work?">
+            <button id="ask-btn">Ask</button>
+        </div>
+        <div id="answer-box"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:8000/ask';
+        const askBtn = document.getElementById('ask-btn');
+        const questionInput = document.getElementById('question-input');
+        const answerBox = document.getElementById('answer-box');
+
+        async function askQuestion() {
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            answerBox.style.display = 'block';
+            answerBox.innerHTML = '<div class="spinner"></div>';
+            askBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    answerBox.innerHTML = `<div class="answer-content"><p><strong>Q:</strong> ${data.question}</p><hr><p><strong>A:</strong> ${data.answer}</p><p><small>Chunks Used: ${data.chunks_used}</small></p></div>`;
+                } else {
+                    answerBox.innerHTML = `<div class="error"><strong>Error:</strong> ${data.detail || 'An unknown error occurred.'}</div>`;
+                }
+            } catch (error) {
+                answerBox.innerHTML = `<div class="error"><strong>Connection Error:</strong> Could not connect to the API server. Please ensure it is running.</div>`;
+            } finally {
+                askBtn.disabled = false;
+            }
+        }
+
+        askBtn.addEventListener('click', askQuestion);
+        questionInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevents form submission
+                askQuestion();
+            }
+        });
+    </script>
+</body>
+</html>

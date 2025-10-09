@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Env
+.env
+
+# DB (This is generated, so we ignore it)
+chroma_db/
+
+# OS / Editor
+.DS_Store
+.vscode/
+
+# Git
+.git/
+.gitignore
