@@ -17,6 +17,9 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 # Copy the rest of your application's code (app.py, index.html, etc.)
 COPY . .
 
+# --- NEW: Run the script to build the database ---
+RUN python build_database.py
+
 # Let Docker know that the container listens on port 8000
 EXPOSE 8000
 
