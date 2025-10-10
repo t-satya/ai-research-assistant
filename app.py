@@ -6,6 +6,7 @@ from pydantic import BaseModel,Field
 from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 load_dotenv()
 
@@ -25,7 +26,7 @@ print("Initialization Complete")
 # --- FastAPI App ---
 app = FastAPI(
     title="AI Research Assistant API",
-    description="An API for querying a RAG system built on AI/ML research papers.",
+    description="RAG-based Q&A system for AI/ML research papers"
     version = "1.0.0"
 )
 
@@ -133,16 +134,12 @@ def answer_question(question):
 
 # --- 3. API Endpoints ---
 
-@app.get("/")
-async def root():
+@app.get("/",response_class=FileResponse)
+async def read_index():
     """
-    Root endpoint with API info
+    Serves the frontend HTML file.
     """
-    return {
-        "name": "AI Research Assistant API",
-        "version": "1.0.0",
-        "status": "online"
-    }
+    return "index.html"
 
 @app.get("/health")
 async def health_check():
