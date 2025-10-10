@@ -26,7 +26,7 @@ print("Initialization Complete")
 # --- FastAPI App ---
 app = FastAPI(
     title="AI Research Assistant API",
-    description="RAG-based Q&A system for AI/ML research papers"
+    description="RAG-based Q&A system for AI/ML research papers",
     version = "1.0.0"
 )
 
