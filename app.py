@@ -173,4 +173,8 @@ async def ask_question(request: QueryRequest):
                             detail=f"Error: {str(e)}")
     
         
-
+if __name__ == "__main__":
+    import uvicorn
+    # Get the port from the environment, but default to 8000 for local development
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
