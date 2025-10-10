@@ -24,4 +24,4 @@ RUN python build_database.py
 EXPOSE 8000
 
 # Define the command to run your app when the container starts
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD uvicorn app:app --host 0.0.0.0 --port $PORT
