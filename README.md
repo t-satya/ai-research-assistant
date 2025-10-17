@@ -1,8 +1,9 @@
 # AI Research Assistant 🤖
 
 An intelligent RAG system for querying 60+ foundational AI/ML research papers using semantic search and LLM-powered responses.
-![AI Research Assistant Demo](./assets/AIResearchAssistant-GoogleChrome2025-10-1720-17-32-ezgif.com-video-to-gif-converter.gif)
 **🔗 [Live Demo](https://ai-research-assistant-m4y7.onrender.com/)** | **📚 [API Docs](https://ai-research-assistant-m4y7.onrender.com/docs)**
+
+![AI Research Assistant Demo](./assets/AIResearchAssistant-GoogleChrome2025-10-1720-17-32-ezgif.com-video-to-gif-converter.gif)
 
 ## What It Does
 Ask natural language questions about key AI/ML research papers and get accurate, context-aware answers. The system is designed to be faithful to the source material, reducing the risk of hallucination.
